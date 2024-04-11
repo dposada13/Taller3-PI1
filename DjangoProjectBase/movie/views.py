@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from movie_recommendations import *
 from .models import Movie
-
 import matplotlib.pyplot as plt
 import matplotlib
 import io
@@ -21,7 +20,6 @@ def home(request):
 
 
 def about(request):
-    #return HttpResponse('<h1>Welcome to About Page</h1>')
     return render(request, 'about.html')
 
 def signup(request):
@@ -123,3 +121,11 @@ def generate_bar_chart(data, xlabel, ylabel):
     buffer.close()
     graphic = base64.b64encode(image_png).decode('utf-8')
     return graphic
+
+def recommendations(request):
+    searchTerm = request.GET.get('searchMovie')
+    if searchTerm:
+        title = recommendation(searchTerm)
+        movies = Movie.objects.filter(title__icontains=title)
+        return render(request, 'recommendations.html',{'searchText':searchTerm, 'movies':movies})
+    return render(request, 'recommendations.html')
