@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from movie_recommendations import *
+from .movie_recommendations import *
 from .models import Movie
 import matplotlib.pyplot as plt
 import matplotlib
